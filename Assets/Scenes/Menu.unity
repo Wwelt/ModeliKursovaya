@@ -812,7 +812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000045344415}
+  m_AnchoredPosition: {x: 0, y: -0.000022888184}
   m_SizeDelta: {x: 20.01, y: 901.2}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &451057036
@@ -1417,8 +1417,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 739739257}
   m_HandleRect: {fileID: 739739256}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99987704
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1632,6 +1632,7 @@ GameObject:
   - component: {fileID: 771213055}
   - component: {fileID: 771213057}
   - component: {fileID: 771213056}
+  - component: {fileID: 771213058}
   m_Layer: 0
   m_Name: Content
   m_TagString: Untagged
@@ -1654,10 +1655,10 @@ RectTransform:
   m_Father: {fileID: 1900367489}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 232.34}
-  m_SizeDelta: {x: 0, y: 232.34}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0.00040978586, y: 115.000015}
+  m_SizeDelta: {x: 0, y: 242.64}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &771213056
 MonoBehaviour:
@@ -1691,7 +1692,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 5
+  m_Spacing: 5.44
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1699,6 +1700,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &771213058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771213054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286f5380491f358408e6918bdfd5008b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3434048036610798800, guid: 8094d2611d8db2c45a10908eff4392ed, type: 3}
+  InnerCamera: {fileID: 519420031}
 --- !u!1 &818950667
 GameObject:
   m_ObjectHideFlags: 0
