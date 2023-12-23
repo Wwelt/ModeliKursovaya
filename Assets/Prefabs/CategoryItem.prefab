@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 85976624677896536}
   - component: {fileID: 1628364220396195349}
   m_Layer: 0
-  m_Name: Item
+  m_Name: CategoryItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,10 +309,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ERROR
+  m_text: "\u0416\u0416\u0416\u0416"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
-  m_sharedMaterial: {fileID: -1190583760926271005, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b049607adddf5c84aacf22b18e1b0e4b, type: 2}
+  m_sharedMaterial: {fileID: -4832078220356236809, guid: b049607adddf5c84aacf22b18e1b0e4b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -4.98
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

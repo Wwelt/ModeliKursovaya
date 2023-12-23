@@ -6,9 +6,6 @@ using UnityEngine.Windows;
 
 public class ImageToSprite : MonoBehaviour
 {
-    //script source: https://forum.unity.com/threads/generating-sprites-dynamically-from-png-or-jpeg-files-in-c.343735/
-    
- 
     private static ImageToSprite _instance;
  
     public static ImageToSprite instance
@@ -32,7 +29,7 @@ public class ImageToSprite : MonoBehaviour
 
     public Texture2D LoadTexture(byte[] byteArray)
     {
-        Texture2D Tex2D = new Texture2D(2, 2); 
+        Texture2D Tex2D = new Texture2D(0, 0); 
         if (Tex2D.LoadImage(byteArray))          
             return Tex2D; 
         return null;  
