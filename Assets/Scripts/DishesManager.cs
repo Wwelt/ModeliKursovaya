@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -5,13 +6,14 @@ using System.Data;
 
 using TMPro;
 using UnityEngine;
+using Button = UnityEngine.UI.Button;
 
 public class DishesManager : MonoBehaviour
 {
     private Dish[] _dishes;
     private GameObject[] Dishes;
     private GameObject[] Groups;
-    
+    private OrderManager _orderManager;
     private QueryManager _manager;
 
     
@@ -62,14 +64,36 @@ public class DishesManager : MonoBehaviour
                 Dishes[j].transform.Find("Sprite").transform.localScale = new Vector3(37, 37, 1);
 
                 Dishes[j].transform.Find("Name").GetComponent<TextMeshProUGUI>().text = _dishes[j].Name;
+
+                Dishes[j].transform.Find("Payment").Find("Price").GetComponent<TextMeshProUGUI>().text = $"{_dishes[j].Cost:0.00} p.";
+
+                var dishName = _dishes[j].Name;
+                Dishes[j].transform.Find("Payment").Find("Button").GetComponent<Button>().
+                    onClick.AddListener(() => AddToBasket(dishName));
             }
         }
+    }
+
+    
+    private void AddToBasket(string dishName)
+    {
+        Dish dish = _manager.GetDishByNameFromDB(dishName);
+        
+        
+
+        var query = $"Insert into Dishes_Orders values ({_orderManager.OrderID}, {_manager.GetNotBusyCookIDFromDB()}, {dish.ID} )";
+        
+        Debug.Log(query);
+        
+        _manager.InsertToDB(query);
     }
     void Start()
     {
         _manager = SceneCamera.GetComponent<QueryManager>();
 
         _manager.SetConnection();
+
+        _orderManager = SceneCamera.GetComponent<OrderManager>();
         
         DishesHandler();
 
