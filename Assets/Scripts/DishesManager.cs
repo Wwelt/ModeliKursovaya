@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Data;
-
 using TMPro;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
@@ -16,9 +12,6 @@ public class DishesManager : MonoBehaviour
     private OrderManager _orderManager;
     private QueryManager _manager;
 
-    
-    //private SqlConnection _connection;
-    
     public GameObject GroupPrefab;
     public GameObject SceneCamera;
     public GameObject DishPrefab;
@@ -26,9 +19,11 @@ public class DishesManager : MonoBehaviour
     
     private void DishesHandler()
     {
+        _manager.SetConnection();
+        
         string query = "SELECT DISTINCT Category FROM Dishes";
         
-        string[] categories = _manager.GetStringsFromDB(query);
+        string[] categories = _manager.GetCategoriesFromDB(query);
         
         
         Groups = new GameObject[categories.Length];
@@ -77,26 +72,58 @@ public class DishesManager : MonoBehaviour
     
     private void AddToBasket(string dishName)
     {
-        Dish dish = _manager.GetDishByNameFromDB(dishName);
-        
-        
+        int dishID = _manager.GetDishByNameFromDB(dishName).ID;
 
-        var query = $"Insert into Dishes_Orders values ({_orderManager.OrderID}, {_manager.GetNotBusyCookIDFromDB()}, {dish.ID} )";
+        var query = $"Select COUNT(*) from Dishes_Orders " +
+                    $"where fk_OrderID = {_orderManager.OrderID} " +
+                    $"and fk_CookID = {_manager.GetNotBusyCookIDFromDB()} " +
+                    $"and fk_DishID = {dishID}";
+        var reader = new SqlCommand(query, _manager.SetConnection()).ExecuteReader();
+        reader.Read();
+        var isZero = (int)reader[0] == 0;
+        reader.Close();
+        
+        if (isZero)
+        {
+            query = $"Insert into Dishes_Orders values ({_orderManager.OrderID}, {_manager.GetNotBusyCookIDFromDB()}, {dishID}, 1)";
+        }
+        else
+        {
+            query = $"Update Dishes_Orders " +
+                    $"set Count = Count + 1 " +
+                    $"where fk_OrderID = {_orderManager.OrderID} " +
+                    $"and fk_CookID = {_manager.GetNotBusyCookIDFromDB()} " +
+                    $"and fk_DishID = {dishID}";
+        }
+        
         
         Debug.Log(query);
+            
+        _manager.UpdateDB(query);
         
-        _manager.InsertToDB(query);
+        
     }
     void Start()
     {
         _manager = SceneCamera.GetComponent<QueryManager>();
 
         _manager.SetConnection();
+        
+        StartCoroutine(Routine());
 
+
+        
+
+    }
+    
+    // ReSharper disable Unity.PerformanceAnalysis
+    IEnumerator Routine()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        
         _orderManager = SceneCamera.GetComponent<OrderManager>();
         
         DishesHandler();
-
     }
 
 }

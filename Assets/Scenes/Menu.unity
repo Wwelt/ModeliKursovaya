@@ -703,8 +703,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: " \u0418\u0422\u041E\u0413\u041E: 0\u0440"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+  m_sharedMaterial: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -764,7 +764,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -3.7627792, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1045,8 +1045,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -392.4, y: -887.2}
-  m_SizeDelta: {x: 88.6, y: 22.8}
+  m_AnchoredPosition: {x: -365.77, y: -887.2}
+  m_SizeDelta: {x: 106.41, y: 22.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &540306043
 MonoBehaviour:
@@ -1190,8 +1190,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "<   \u041E\u0422\u041C\u0415\u041D\u0410"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
-  m_sharedMaterial: {fileID: -1190583760926271005, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+  m_sharedMaterial: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2249,6 +2249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25eab8d12846bc541ba922f6a3ae9c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneCamera: {fileID: 519420028}
 --- !u!328 &1406041166
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -2343,8 +2344,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0414\u0410\u041B\u0415\u0415"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+  m_sharedMaterial: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

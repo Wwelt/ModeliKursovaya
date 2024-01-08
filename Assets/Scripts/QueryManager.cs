@@ -1,18 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 // Classes of tables
-
 #region Tables
 
 public class Dish
@@ -40,28 +32,7 @@ public class QueryManager : MonoBehaviour
     private static bool IsOpened = false;
     
     private SqlConnection Connection;
-
-    public Dish[] GetDishesFromDB()
-    {
-        List<Dish> list = new List<Dish>();
-
-        var queryOfData = $"SELECT * FROM Dishes order by Category";
-        var command = new SqlCommand(queryOfData, Connection);
-        var reader = command.ExecuteReader();
-
-        while (reader.Read())
-        {
-            list.Add(new Dish(){
-                ID =          (int)reader[0],
-                Name =     (string)reader[1],
-                Cost =    (decimal)reader[2],
-                Category = (string)reader[3],
-                Image =    (byte[])reader[4]
-            });
-        }
-        reader.Close();
-        return list.ToArray();
-    }
+    
 
     public Dish[] GetDishesFromDB(string query)
     {
@@ -85,10 +56,13 @@ public class QueryManager : MonoBehaviour
     }
 
 
-    public string[] GetStringsFromDB(string query)
+    public string[] GetCategoriesFromDB(string query)
     {
+        SetConnection();
+
         List<string> list = new List<string>();
         SqlCommand command = new SqlCommand(query, Connection);
+        
         SqlDataReader reader = command.ExecuteReader();
         
         while (reader.Read())
@@ -101,12 +75,13 @@ public class QueryManager : MonoBehaviour
     }
     
     
-
     public Dish[] GetDistinctDishesFromDB()
     {
+        SetConnection();
+        
         List<Dish> list = new List<Dish>();
         
-        var query = $"Select Top(Select Count(distinct Category) from Dishes) * from Dishes";
+        var query = "Select Top(Select Count(distinct Category) from Dishes) * from Dishes";
         var command = new SqlCommand(query, Connection);
         var reader = command.ExecuteReader();
         while (reader.Read())
@@ -123,23 +98,11 @@ public class QueryManager : MonoBehaviour
         return list.ToArray();
         
     }
-
-    public Ingredient[] GetIngredientsFromDB()
-    {
-        var totalCount = $"SELECT COUNT(*) FROM Ingredients";
-        SqlCommand command = new SqlCommand(totalCount, Connection);
-        SqlDataReader reader = command.ExecuteReader();
-        reader.Read();
-        
-        Ingredient[] ingredients = new Ingredient[(int)reader[0]];
-        reader.Close();
-        
-
-        return ingredients;
-    }
-
+    
     public int[] GetOrderIDFromDB()
     {
+        SetConnection();
+
         var list = new List<int>();
         var query = $"Select OrderID from Orders";
         var command = new SqlCommand(query, Connection);
@@ -153,12 +116,14 @@ public class QueryManager : MonoBehaviour
         return list.ToArray();
     }
 
-    public Dish GetDishByNameFromDB(string name)
+    public Dish GetDishByNameFromDB(string dishName)
     {
-        var query = $"Select * from Dishes where Name == N'{name}' ";
+        SetConnection();
+
+        var query = $"Select * from Dishes where Name = N'{dishName}' ";
         var command = new SqlCommand(query, Connection);
         var reader = command.ExecuteReader();
-
+        reader.Read();
         var dish = new Dish()
         {
             ID = (int) reader[0],
@@ -175,14 +140,48 @@ public class QueryManager : MonoBehaviour
     
     public int GetNotBusyCookIDFromDB()
     {
+        List<int> list = new List<int>();
         Dictionary<int, int> employees = new Dictionary<int, int>();
-        var query = $"Select * from Cooks";
+        var query = $"Select CookID from Cooks";
         var command = new SqlCommand(query, Connection);
         var reader = command.ExecuteReader();
 
         while (reader.Read())
         {
-            query = $"Select Count(*) from Dishes_Orders where fk_CookID = {reader[0]}";
+            list.Add((int) reader[0]);
+        }
+        reader.Close();
+
+        foreach (var element in list)
+        {
+            query = $"Select Count from Dishes_Orders where fk_CookID = {element}";
+            var newCommand = new SqlCommand(query, Connection);
+            var newReader = newCommand.ExecuteReader();
+            var summary = 0;
+            while (newReader.Read())
+            {
+                summary += (int)newReader[0];
+            }
+             
+            newReader.Close();
+            
+            
+            employees.Add(element, summary);
+        }
+        
+        return employees.First(e => e.Value == employees.Min(e2 => e2.Value)).Key;
+    }
+
+    public int GetNotBusyCashierIDFromDB() /////////remake
+    {
+        Dictionary<int, int> employees = new Dictionary<int, int>();
+        var query = $"Select * from Cashiers";
+        var command = new SqlCommand(query, Connection);
+        var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            query = $"Select Count(*) from Orders where fk_CashierID = {reader[0]}";
             var newCommand = new SqlCommand(query, Connection);
             var newReader = newCommand.ExecuteReader();
             
@@ -191,49 +190,26 @@ public class QueryManager : MonoBehaviour
 
         return employees.First(e => e.Value == employees.Min(e2 => e2.Value)).Key;
     }
-
+    
+    
+    
     /// <summary>
-    /// Very unsafe
+    /// Very unsafe. 
     /// </summary>
-    /// <param name="query"></param>
-    public void InsertToDB(string query)
+    /// <summary>
+    /// Use full query to make it work properly
+    /// </summary>
+    /// <param name="query">query string</param>
+    public void UpdateDB(string query)
     {
+        SetConnection();
+
         var command = new SqlCommand(query, Connection);
+        
         command.ExecuteNonQuery();
         
     }
-    /*private void DishesHandler()
-    {
-        List<string> list = new List<string>();
-        string query = "SELECT DISTINCT Category FROM Dishes";
-        SqlCommand command = new SqlCommand(query, Connection);
-        SqlDataReader reader = command.ExecuteReader();
-        
-        while (reader.Read())
-        {
-            list.Add((string)reader[0]);
-        }
-        reader.Close();
-        
-        
-        Groups = new GameObject[list.Count];
-        
-        //var counter = 0;
-        for (byte i = 0; i < list.Count; i++)
-        {
-            query = $"Select * from Dishes where Category = N'{list[i]}' ";
 
-            _dishes = GetDishesFromDB(query);
-
-            
-            
-
-            Groups[i].transform.Find("Category").GetComponent<TextMeshProUGUI>().text = list[i];
-            
-            
-            Groups[i].transform.localScale = new Vector3(1, 1, 1);
-        }
-    }*/
     public SqlConnection SetConnection()
     {
         if (IsOpened)
@@ -247,10 +223,9 @@ public class QueryManager : MonoBehaviour
 
         return Connection;
     }
-
-    public void Print()
+    
+    IEnumerator Routine()
     {
-        Debug.Log("Button touched");
+        yield return new WaitForSeconds(200);
     }
-
 }

@@ -311,8 +311,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0416\u0416\u0416\u0416"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b049607adddf5c84aacf22b18e1b0e4b, type: 2}
-  m_sharedMaterial: {fileID: -4832078220356236809, guid: b049607adddf5c84aacf22b18e1b0e4b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+  m_sharedMaterial: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

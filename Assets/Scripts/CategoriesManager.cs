@@ -1,6 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using TMPro;
 using UnityEngine;
 
@@ -20,8 +19,6 @@ public class CategoriesManager : MonoBehaviour
 
     private void CategoriesHandler()
     {
-        
-        
         _categories = manager.GetDistinctDishesFromDB();
         dishesObjects = new GameObject[_categories.Length];
         
@@ -49,8 +46,21 @@ public class CategoriesManager : MonoBehaviour
         // _connection = 
         manager.SetConnection();
         
-        CategoriesHandler();
+        StartCoroutine(Routine());
     }
 
+    private void OnEnable()
+    {
+        
+    }
+
+    // ReSharper disable Unity.PerformanceAnalysis
+    IEnumerator Routine()
+    {
+        yield return new WaitForSecondsRealtime(1);
+        
+        CategoriesHandler();
+
+    }
 
 }

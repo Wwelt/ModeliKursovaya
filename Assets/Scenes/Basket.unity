@@ -135,6 +135,18 @@ PrefabInstance:
       propertyPath: m_margin.w
       value: 87.84555
       objectReference: {fileID: 0}
+    - target: {fileID: 6289320389472720854, guid: 3ae26b6a75a6c8e4988e3ce7121665a3, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+    - target: {fileID: 6289320389472720854, guid: 3ae26b6a75a6c8e4988e3ce7121665a3, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+    - target: {fileID: 6289320389472720854, guid: 3ae26b6a75a6c8e4988e3ce7121665a3, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7798576419293226680, guid: 3ae26b6a75a6c8e4988e3ce7121665a3, type: 3}
       propertyPath: m_Name
       value: EFC logo
@@ -293,8 +305,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041E\u041F\u041B\u0410\u0422\u0418\u0422\u042C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+  m_sharedMaterial: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -562,8 +574,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041E\u0422\u041C\u0415\u041D\u0418\u0422\u042C \u0417\u0410\u041A\u0410\u0417"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
-  m_sharedMaterial: {fileID: -1190583760926271005, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+  m_sharedMaterial: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -697,8 +709,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0412\u0410\u0428 \u0417\u0410\u041A\u0410\u0417:"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
-  m_sharedMaterial: {fileID: -1190583760926271005, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+  m_sharedMaterial: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -892,6 +904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25eab8d12846bc541ba922f6a3ae9c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneCamera: {fileID: 1070236450}
 --- !u!1 &765273234
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,6 +1172,7 @@ GameObject:
   - component: {fileID: 1070236453}
   - component: {fileID: 1070236452}
   - component: {fileID: 1070236451}
+  - component: {fileID: 1070236454}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1241,6 +1255,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1070236454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070236450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286f5380491f358408e6918bdfd5008b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1363762732
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -288,8 +288,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u0421\u041E\u0417\u0414\u0410\u0422\u042C \u0417\u0410\u041A\u0410\u0417"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
-  m_sharedMaterial: {fileID: -1190583760926271005, guid: 0bd764d3e2c89db439a3aa5c749ec99d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
+  m_sharedMaterial: {fileID: -4856138744268839819, guid: a1db60b075429144f912ae36c9ed6dab, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -703,6 +703,7 @@ GameObject:
   - component: {fileID: 1354374416}
   - component: {fileID: 1354374415}
   - component: {fileID: 1354374418}
+  - component: {fileID: 1354374419}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -795,6 +796,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25eab8d12846bc541ba922f6a3ae9c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneCamera: {fileID: 1354374414}
+--- !u!114 &1354374419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354374414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286f5380491f358408e6918bdfd5008b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1487993324
