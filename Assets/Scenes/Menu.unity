@@ -653,9 +653,10 @@ GameObject:
   m_Component:
   - component: {fileID: 298140193}
   - component: {fileID: 298140195}
+  - component: {fileID: 298140196}
   - component: {fileID: 298140194}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -778,6 +779,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298140192}
   m_CullTransparentMesh: 1
+--- !u!114 &298140196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298140192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37df27c7c19817746a4269d82220e8a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 519420028}
 --- !u!1 &386315377
 GameObject:
   m_ObjectHideFlags: 0
@@ -983,6 +997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286f5380491f358408e6918bdfd5008b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instance: {fileID: 0}
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1008,6 +1023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OrderID: 0
+  transferPrefab: {fileID: 4972034689411034585, guid: bb5ff1bef2b6ace4f94f67d440d2ac3c, type: 3}
 --- !u!1 &540306041
 GameObject:
   m_ObjectHideFlags: 0
@@ -1666,6 +1682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff620e0d6d0dc04fb18e0a048c7910c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DishContent: {fileID: 386315377}
   Itemprefab: {fileID: 3434048036610798800, guid: 8094d2611d8db2c45a10908eff4392ed, type: 3}
   SceneCamera: {fileID: 519420028}
 --- !u!1 &818950667

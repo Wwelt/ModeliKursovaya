@@ -1,5 +1,3 @@
-
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,50 +7,53 @@ public class OrderManager : MonoBehaviour
     private QueryManager _manager;
     
     public int OrderID;
+    public GameObject transferPrefab;
 
     private void CreateOrder()
     {
-        _manager.SetConnection();
-        
-        if (PlayerPrefs.HasKey("OrderID"))
+        if (GameObject.Find("TransferData").GetComponent<TransferData>().OrderID >= 100)
         {
-            OrderID = PlayerPrefs.GetInt("OrderID");
+            OrderID = GameObject.Find("TransferData").GetComponent<TransferData>().OrderID;
             return;
         }
         
         var ordersID = _manager.GetOrderIDFromDB();
-        while (true)
+        
+        bool bl;
+        do
         {
             OrderID = Random.Range(100, 1000);
-            var bl = ordersID.Any(t => OrderID == t);
+            bl = ordersID.Any(t => OrderID == t);
 
-            if (!bl) break;
-        }
+        } while (bl);
         
         _manager.UpdateDB($"Insert into Orders values ({OrderID}, N'Создан', null)");
-        
-        PlayerPrefs.SetInt("orderID", OrderID);
 
-        
+        GameObject.Find("TransferData").GetComponent<TransferData>().OrderID = OrderID;
+
+
     }
-    void Start()
+
+    public void OnLevelLoad()
     {
         _manager = gameObject.GetComponent<QueryManager>();
 
         _manager.SetConnection();
         
-        StartCoroutine(Routine());
-
-        
-
+        CreateOrder();
     }
     
-    IEnumerator Routine()
+    void Awake()
     {
-        yield return new WaitForSecondsRealtime(1);
+        if (GameObject.Find("TransferData") == null)
+        {
+            var temp = Instantiate(transferPrefab);
+            temp.name = "TransferData";
+        }
         
-        CreateOrder();
-
+        OnLevelLoad();
     }
+    
+
 
 }

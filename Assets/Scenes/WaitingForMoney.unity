@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 737641549}
   - component: {fileID: 737641548}
   m_Layer: 0
-  m_Name: "\u0410\u043D\u0438\u043C\u0430\u0446\u0438\u044F"
+  m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

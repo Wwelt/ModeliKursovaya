@@ -25,7 +25,6 @@ public class DishesManager : MonoBehaviour
         
         string[] categories = _manager.GetCategoriesFromDB(query);
         
-        
         Groups = new GameObject[categories.Length];
         
         //var counter = 0;
@@ -69,6 +68,25 @@ public class DishesManager : MonoBehaviour
         }
     }
 
+    public void ChangePosition(string CategoryName)
+    {
+        switch (CategoryName)
+        {
+            case "Гарнир":
+                transform.position = new Vector3(transform.position.x, 5.9f, transform.position.z);
+
+                break;
+            case "Бургеры":
+                transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
+                break;
+            case "Жаренная курица":
+                transform.position = new Vector3(transform.position.x, 6.0f, transform.position.z);
+
+                break;
+            case "":
+                break;
+        }
+    }
     
     private void AddToBasket(string dishName)
     {
@@ -76,7 +94,7 @@ public class DishesManager : MonoBehaviour
 
         var query = $"Select COUNT(*) from Dishes_Orders " +
                     $"where fk_OrderID = {_orderManager.OrderID} " +
-                    $"and fk_CookID = {_manager.GetNotBusyCookIDFromDB()} " +
+                    $"and fk_CookID = {_manager.GetCooksFromDB(false)} " +
                     $"and fk_DishID = {dishID}";
         var reader = new SqlCommand(query, _manager.SetConnection()).ExecuteReader();
         reader.Read();
@@ -85,45 +103,38 @@ public class DishesManager : MonoBehaviour
         
         if (isZero)
         {
-            query = $"Insert into Dishes_Orders values ({_orderManager.OrderID}, {_manager.GetNotBusyCookIDFromDB()}, {dishID}, 1)";
+            query = $"Insert into Dishes_Orders values ({_orderManager.OrderID}, {_manager.GetCooksFromDB(false)}, {dishID}, 1)";
         }
         else
         {
             query = $"Update Dishes_Orders " +
                     $"set Count = Count + 1 " +
                     $"where fk_OrderID = {_orderManager.OrderID} " +
-                    $"and fk_CookID = {_manager.GetNotBusyCookIDFromDB()} " +
+                    $"and fk_CookID = {_manager.GetCooksFromDB(false)} " +
                     $"and fk_DishID = {dishID}";
         }
-        
         
         Debug.Log(query);
             
         _manager.UpdateDB(query);
         
-        
+        GameObject.Find("Main Camera").transform.Find("CanvasMain").Find("Buttons")
+            .Find("Button-Total-Cost").Find("Text")
+            .GetComponent<ShowTotalCost>().UpdateText(_orderManager.OrderID);
     }
-    void Start()
+    private void OnLevelLoad()
     {
+        _orderManager = SceneCamera.GetComponent<OrderManager>();
+
         _manager = SceneCamera.GetComponent<QueryManager>();
 
         _manager.SetConnection();
         
-        StartCoroutine(Routine());
-
-
-        
-
-    }
-    
-    // ReSharper disable Unity.PerformanceAnalysis
-    IEnumerator Routine()
-    {
-        yield return new WaitForSecondsRealtime(1);
-        
-        _orderManager = SceneCamera.GetComponent<OrderManager>();
-        
         DishesHandler();
     }
-
+    
+    void Awake()
+    {
+        OnLevelLoad();
+    }
 }

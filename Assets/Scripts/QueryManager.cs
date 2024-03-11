@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using UnityEngine;
@@ -24,16 +24,50 @@ public class Ingredient
     public byte[] Image;
 }
 
+public class SeveralDishes
+{
+    public Dish Dish;
+    public int Count;
+}
 #endregion 
 
 public class QueryManager : MonoBehaviour
 {
     private static string ConnectionString = "Data Source=.;Initial Catalog=EFC;Integrated Security=True";
-    private static bool IsOpened = false;
     
-    private SqlConnection Connection;
+    public SqlConnection Connection;
     
+    public QueryManager instance;
+    
+    private void Awake()
+    {
+        instance = this;
+    }
+    
+    public List<Ingredient> GetIngredientsFromDB()
+    {
+        List<Ingredient> list = new List<Ingredient>();
+        
+        var query = $"Select i.IngredientID, i.Name, di.IngredientCount, i.Image " +
+                    $"from Ingredients i full join Dishes_Ingredients di " +
+                    $"on i.IngredientID = di.fk_IngredientID";
 
+        var command = new SqlCommand(query, Connection);
+        var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            list.Add(new Ingredient()
+            {
+                ID = (int) reader[0],
+                Name = (string) reader[1],
+                Count = (int) reader[2],
+                Image = (byte[]) reader[3]
+            });
+        }
+        reader.Close();
+        return list;
+    }
     public Dish[] GetDishesFromDB(string query)
     {
         List<Dish> list = new List<Dish>();
@@ -52,10 +86,65 @@ public class QueryManager : MonoBehaviour
             });
         }
         reader.Close();
+        
         return list.ToArray();
     }
 
+    public bool IfExistsIngredientFk(int DishID, int IngredientID)
+    {
+        var query = $"Select * from Dishes_Ingredients where fk_DishID = {DishID} and fk_IngredientID = {IngredientID}";
 
+        SqlCommand command = new SqlCommand(query, Connection);
+
+        var reader = command.ExecuteReader();
+        
+        while (reader.Read())
+        {
+            if (reader[0] != null)
+            {
+                reader.Close();
+                
+                return true;
+            }
+        }
+        reader.Close();
+
+        return false;
+    }
+    public SeveralDishes[] GetSeveralDishesFromDB(int orderID)
+    {
+        var query = $"SELECT d.DishID, d.Name, d.Cost, d.Category, d.Image, do.Count " +
+                    $"FROM Dishes_Orders do full JOIN Dishes d " +
+                    $"ON do.fk_DishID = d.DishID " +
+                    $"where do.fk_OrderID = {orderID}";
+        
+        List<SeveralDishes> list = new List<SeveralDishes>();
+        
+        var command = new SqlCommand(query, Connection);
+        var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            var temp = new Dish()
+            {
+                ID = (int)reader[0],
+                Name = (string)reader[1],
+                Cost = (decimal)reader[2],
+                Category = (string)reader[3],
+                Image = (byte[])reader[4]
+            };
+            
+            list.Add(
+                new SeveralDishes(){
+                    Dish = temp,
+                    Count = (int)reader[5] 
+                });
+        }
+        reader.Close();
+        
+        return list.ToArray();
+    }
+    
     public string[] GetCategoriesFromDB(string query)
     {
         SetConnection();
@@ -137,8 +226,8 @@ public class QueryManager : MonoBehaviour
         
         return dish;
     }
-    
-    public int GetNotBusyCookIDFromDB()
+
+    public int GetCooksFromDB(bool isBusy)
     {
         List<int> list = new List<int>();
         Dictionary<int, int> employees = new Dictionary<int, int>();
@@ -169,7 +258,12 @@ public class QueryManager : MonoBehaviour
             employees.Add(element, summary);
         }
         
-        return employees.First(e => e.Value == employees.Min(e2 => e2.Value)).Key;
+        return isBusy ? 
+            employees.First(e => 
+                e.Value == employees.Max(e2 => e2.Value)).Key 
+            : 
+            employees.First(e => 
+                e.Value == employees.Min(e2 => e2.Value)).Key;
     }
 
     public int GetNotBusyCashierIDFromDB() /////////remake
@@ -190,7 +284,24 @@ public class QueryManager : MonoBehaviour
 
         return employees.First(e => e.Value == employees.Min(e2 => e2.Value)).Key;
     }
-    
+
+    public decimal GetTotalCostFromDB(int OrderID)
+    {
+        SetConnection();
+
+        var query = $"SELECT SUM(d.Cost * do.Count) AS TotalCost " +
+                    $"FROM Dishes_Orders do " +
+                    $"JOIN Dishes d ON do.fk_DishID = d.DishID " +
+                    $"WHERE do.fk_OrderID = {OrderID} ";
+        var command = new SqlCommand(query, Connection);
+        var reader = command.ExecuteReader();
+        
+        reader.Read();
+        var summary = (decimal)reader[0];
+        reader.Close();
+        
+        return summary;
+    }
     
     
     /// <summary>
@@ -210,22 +321,32 @@ public class QueryManager : MonoBehaviour
         
     }
 
+    public int[] GetCountsFromBasket(string query)
+    {
+        SetConnection();
+
+        List<int> counts = new List<int>();
+        var command = new SqlCommand(query, Connection);
+        var reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+            counts.Add((int)reader[0]);
+        }
+        reader.Close();
+        
+        return counts.ToArray();
+    }
+
+    // ReSharper disable Unity.PerformanceAnalysis
     public SqlConnection SetConnection()
     {
-        if (IsOpened)
-            return Connection;
-        
         
         Connection = new SqlConnection(ConnectionString);
         Connection.Open();
 
-        IsOpened = true;
-
+        
         return Connection;
     }
     
-    IEnumerator Routine()
-    {
-        yield return new WaitForSeconds(200);
-    }
 }

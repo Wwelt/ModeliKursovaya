@@ -1,7 +1,7 @@
-using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
+using Button = UnityEngine.UI.Button;
+
 
 public class CategoriesManager : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class CategoriesManager : MonoBehaviour
 
     
     //private SqlConnection _connection;
-    
+    public GameObject DishContent;
     public GameObject Itemprefab;
     public GameObject SceneCamera;
 
@@ -36,31 +36,27 @@ public class CategoriesManager : MonoBehaviour
 
             dishesObjects[i].transform.Find("Canvas").Find("Text").GetComponent<TextMeshProUGUI>().text = _categories[i].Category;
 
-            dishesObjects[i].name = $"CategoryItem: {_categories[i].Category}";
-
+            var tempName = _categories[i].Category;
+            
+            dishesObjects[i].name = $"CategoryItem: {tempName}";
+            
+            dishesObjects[i].transform.Find("Canvas").Find("Button").GetComponent<Button>()
+                .onClick.AddListener(() => DishContent.GetComponent<DishesManager>().ChangePosition(tempName));
         }
     }
-    void Start()
+    
+    public void OnLevelLoad()
     {
+        
         manager = SceneCamera.GetComponent<QueryManager>();
         // _connection = 
         manager.SetConnection();
         
-        StartCoroutine(Routine());
-    }
-
-    private void OnEnable()
-    {
-        
-    }
-
-    // ReSharper disable Unity.PerformanceAnalysis
-    IEnumerator Routine()
-    {
-        yield return new WaitForSecondsRealtime(1);
-        
         CategoriesHandler();
-
     }
 
+    void Awake()
+    {
+        OnLevelLoad();
+    }
 }
